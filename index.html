@@ -91,14 +91,17 @@
             const notification = document.getElementById('notification');
             const audio = document.getElementById('alertSound');
 
+            // Set volume to 30%
+            audio.volume = 0.3;
+
             // Show notification
             notification.style.top = '20px';
             audio.play().catch(error => console.log('Audio play failed:', error));
 
-            // Hide after 10 seconds
+            // Hide after 30 seconds
             setTimeout(() => {
                 notification.style.top = '-100px';
-            }, 10000);
+            }, 30000); // 30 seconds
         }
 
         // Check time every minute
