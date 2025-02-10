@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            background: transparent;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        #toggleBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #notification {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: top 0.5s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #notification img {
+            height: 40px;
+            width: 40px;
+        }
+
+        .notification-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bold-text {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .small-text {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleBtn">Toggle</button>
+    <div id="notification">
+        <img src="red.png" alt="Alert">
+        <div class="notification-text">
+            <span class="bold-text">Your Businesses are ready to collect</span>
+            <span class="small-text">Head to your faction headquarter or Pacific Bank to collect your businesses at once or collect them one by one</span>
+        </div>
+    </div>
+
+    <audio id="alertSound">
+        <source src="notifications.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let lastTriggeredHour = -1;
+        const targetHours = [0, 3, 6, 9, 12, 15, 18, 21]; // GMT+3 hours
+
+        function checkTime() {
+            const now = new Date();
+            const gmt3Hour = (now.getUTCHours() + 3) % 24;
+            const minutes = now.getUTCMinutes();
+
+            if (targetHours.includes(gmt3Hour) && minutes === 0 && lastTriggeredHour !== gmt3Hour) {
+                showNotification();
+                lastTriggeredHour = gmt3Hour;
+            }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            const audio = document.getElementById('alertSound');
+
+            // Show notification
+            notification.style.top = '20px';
+            audio.play().catch(error => console.log('Audio play failed:', error));
+
+            // Hide after 10 seconds
+            setTimeout(() => {
+                notification.style.top = '-100px';
+            }, 10000);
+        }
+
+        // Check time every minute
+        setInterval(checkTime, 60000);
+        checkTime(); // Initial check
+
+        // Toggle button functionality (add your custom logic here)
+        document.getElementById('toggleBtn').addEventListener('click', () => {
+            console.log('Toggle button clicked - add your logic here');
+        });
+    </script>
+</body>
+</html>
