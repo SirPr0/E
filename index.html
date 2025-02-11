@@ -45,12 +45,13 @@
         }
 
         /* Style for the small red.png image in the bottom-left corner */
-        #bottom-left-image {
+        #bottom-left-button {
             position: fixed;
             bottom: 20px;
             left: 20px;
             width: 32px;
             height: 32px;
+            cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
         }
     </style>
 </head>
@@ -64,8 +65,8 @@
         </div>
     </div>
 
-    <!-- Small red.png image in the bottom-left corner -->
-    <img id="bottom-left-image" src="red.png" alt="Red Icon">
+    <!-- Small red.png image as a button in the bottom-left corner -->
+    <img id="bottom-left-button" src="red.png" alt="Red Icon" onclick="triggerNotification()">
 
     <!-- Audio for notification sound -->
     <audio id="alertSound">
@@ -76,6 +77,7 @@
         let lastTriggeredHour = -1;
         const targetHours = [0, 3, 6, 9, 12, 15, 18, 21]; // GMT+3 hours
 
+        // Function to check the time and trigger the notification
         function checkTime() {
             const now = new Date();
             const gmt3Hour = (now.getUTCHours() + 3) % 24;
@@ -87,6 +89,7 @@
             }
         }
 
+        // Function to show the notification and play the sound
         function showNotification() {
             const notification = document.getElementById('notification');
             const audio = document.getElementById('alertSound');
@@ -102,6 +105,11 @@
             setTimeout(() => {
                 notification.style.top = '-100px';
             }, 30000); // 30 seconds
+        }
+
+        // Function to manually trigger the notification
+        function triggerNotification() {
+            showNotification();
         }
 
         // Check time every minute
